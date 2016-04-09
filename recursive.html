@@ -3,23 +3,40 @@
   <head>
     <script>
     
+    var RIGHT_MARGIN = 5;
+    var TOP_MARGIN  = RIGHT_MARGIN; 
     class Frame{
-     constructor(origin, edge1, edge2){
-     this.origin = origin;
+
+
+
+    constructor(origin, edge1, edge2){ 
+    this.origin = origin;
      this.edge1  = edge1;
      this.edge2  = edge2;
      this.offspring = [];
+
+     this.divBox   = document.createElement('div');
+     this.divBox.className = "innerBox";
+     this.divBox.style.width = (edge1.vecLength() - RIGHT_MARGIN).toString() + "px";
+     this.divBox.style.height =( edge2.vecLength() - TOP_MARGIN).toString() + "px";
+     this.divBox.style.left    = origin.xCord.toString() + "px";
+     this.divBox.style.top   = origin.yCord.toString() + "px";
+     
      } 
 
-     origin() {
+     getDivbox(){
+      return this.divBox;
+     }
+
+     getOrigin() {
       return this.origin;
      }
 
-     edge1(){
+     getEdge1(){
       return this.edge1;
      }
 
-     edge2(){
+     getEdge2(){
       return this.edge2;
     }
 
@@ -30,6 +47,14 @@
       var createdFrame = new Frame(newOrigin, newCorn1, newCorn2);
       this.offspring.push(createdFrame);
     }
+
+     createDivs(){
+        console.log("1 done");
+        var len = this.offspring.length;
+      for(var i = 0; i < len; i++){
+        this.divBox.appendChild(this.offspring[i].getDivbox());
+      }
+     }
     
 
     horizontalSplit(num){
@@ -45,6 +70,7 @@
         this.createOffspring(orVec,xVec,yVec);
       }
      
+      this.createDivs();
     }
     verticalSplit(num){
       var deltaY = 1/ num;
@@ -58,6 +84,7 @@
         var yVec   = new Vector(0.0, yLimit);
         this.createOffspring(orVec,xVec,yVec);
       }
+      this.createDivs();
      
     }
 
@@ -74,6 +101,14 @@
       var newX = this.xCord + vec.xCord;
       var newY = this.yCord + vec.yCord;
       return new Vector(newX,newY);
+    }
+
+    
+
+    vecLength(){
+      var xSquared = Math.pow(this.xCord,2);
+      var ySquared = Math.pow(this.yCord,2);
+      return Math.sqrt(xSquared + ySquared);
     }
 
     subVector(vec){
@@ -101,14 +136,18 @@ var nullVec   = new Vector(0.0, 0.0);
 var largeXVec = new Vector(800, 0.0);
 var largeYVec = new Vector(0.0, 700);
 var firstFrame = new Frame(nullVec,largeXVec,largeYVec);
+document.getElementsByTagName('body')[0].appendChild(firstFrame.getDivbox());
+
 
   
     </script>
     <style>
         div{
           background-color: red;
-          display: block;
+          display: inline-flex;
           position: absolute;
+          border-style:solid;
+          border-width:5px;
         }
         #masterCont{
           width: 95%;
@@ -117,14 +156,6 @@ var firstFrame = new Frame(nullVec,largeXVec,largeYVec);
     </style>
   </head>
   <body>
-    <div id="masterCont">
-    
-    </div>
-    <div>
-      <a id="theButt" href="
-                           javascript: 
-                              ">Click me!</a>
-    </div>
   </body>
 </html>
 
