@@ -1,0 +1,11 @@
+div{
+  background-color: red;
+  display: inline-flex;
+  position: absolute;
+  border-style:solid;
+  border-width:2px;
+}
+#masterCont{
+  width: 95%;
+  height: 600px;
+}
